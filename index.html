@@ -6,23 +6,13 @@
     <title>AI Business Idea Generator</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
+        body { font-family: 'Inter', sans-serif; }
         .card {
             background: white;
             border-radius: 1rem;
             padding: 2rem;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
         .loader {
             border: 4px solid #f3f3f3;
@@ -35,13 +25,6 @@
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
-        }
-        .section-title {
-            font-size: 1.875rem;
-            font-weight: 700;
-            color: #111827;
-            margin-bottom: 1.5rem;
-            text-align: center;
         }
         .result-section {
             display: none;
@@ -59,213 +42,73 @@
 
     <div class="container mx-auto px-4 py-12">
         <header class="text-center mb-12">
-            <div id="user-info" class="absolute top-4 right-4 text-right" style="display: none;">
-                <p id="user-name" class="font-semibold"></p>
-                <button id="logout-btn" class="text-sm text-indigo-600 hover:underline">Logout</button>
-            </div>
             <h1 class="text-4xl md:text-5xl font-bold text-gray-900">AI-Powered Business Idea Generator</h1>
-            <p class="mt-4 text-lg text-gray-600">Transform a broad topic into a validated business idea with a complete landing page concept.</p>
+            <p class="mt-4 text-lg text-gray-600">Enter a topic and let our AI agent team do the research.</p>
         </header>
 
         <main>
             <div class="max-w-xl mx-auto">
                 <div class="card">
-                    <div id="login-section">
-                        <h2 class="text-2xl font-semibold mb-4 text-center">Login to Continue</h2>
-                        <button id="login-btn" class="w-full flex items-center justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#fff"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/><path d="M1 1h22v22H1z" fill="none"/></svg>
-                            Login with Google
-                        </button>
-                    </div>
-                    <div id="generator-section" style="display: none;">
-                        <h2 class="text-2xl font-semibold mb-4 text-center">Start Your Search</h2>
-                        <div class="space-y-4">
-                            <div>
-                                <label for="topic-input" class="block text-sm font-medium text-gray-700">Enter a Broad Topic (e.g., Health, Wealth, Education)</label>
-                                <input type="text" id="topic-input" value="Wealth" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                            </div>
-                            <div id="button-container" class="space-y-4">
-                                <button id="generate-btn" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                    Find My Million-Dollar Idea
-                                </button>
-                                <button id="download-btn" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" style="display: none;">
-                                    Download Results
-                                </button>
-                            </div>
+                    <h2 class="text-2xl font-semibold mb-4 text-center">Start Your Search</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label for="topic-input" class="block text-sm font-medium text-gray-700">Enter a Broad Topic</label>
+                            <input type="text" id="topic-input" value="Health" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                         </div>
+                        <button id="generate-btn" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            Generate Business Idea
+                        </button>
                     </div>
                 </div>
             </div>
 
             <div id="loading-indicator" class="mt-8 flex-col items-center" style="display: none;">
                 <div class="loader mx-auto"></div>
-                <p id="loading-text" class="mt-4 text-gray-600 text-center">Analyzing market... this may take a moment.</p>
+                <p id="loading-text" class="mt-4 text-gray-600 text-center">Your AI agent team is on the case... this may take a few moments.</p>
             </div>
 
-            <!-- Results Sections -->
+            <!-- Results Section -->
             <div id="results-container">
-                <!-- Step 1: Sub-Niches -->
-                <section id="subniches-section" class="result-section">
-                    <h2 class="section-title">Step 1: Top 5 Potential Sub-Niches</h2>
-                    <div id="subniches-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <!-- Sub-niche cards will be injected here -->
-                    </div>
-                </section>
-
-                <!-- Step 2: Validated Niche -->
-                <section id="validated-niche-section" class="result-section">
-                    <h2 class="section-title">Step 2: Validated Niche</h2>
-                    <div class="max-w-3xl mx-auto">
-                        <div class="card text-center bg-indigo-50 border-2 border-indigo-200">
-                            <h3 id="validated-niche-title" class="text-3xl font-bold text-indigo-800"></h3>
-                            <p id="validated-niche-reason" class="mt-4 text-lg text-indigo-700"></p>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Step 3: Pain Points -->
-                <section id="pain-points-section" class="result-section">
-                    <h2 class="section-title">Step 3: User Pain Points</h2>
-                    <div class="max-w-3xl mx-auto">
-                        <div class="card bg-rose-50 border-2 border-rose-200">
-                            <p id="pain-points-summary" class="text-lg text-rose-800 leading-relaxed"></p>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Step 4: Business Idea -->
-                <section id="business-idea-section" class="result-section">
-                    <h2 class="section-title">Step 4: Your Business Idea & Landing Page</h2>
-                    <div id="business-idea-content" class="max-w-4xl mx-auto card">
-                        <!-- Business idea will be injected here -->
+                <section id="report-section" class="result-section">
+                    <div id="report-content" class="max-w-4xl mx-auto card prose lg:prose-xl">
+                        <!-- The final report will be injected here -->
                     </div>
                 </section>
             </div>
         </main>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
-        // --- IMPORTANT ---
-        // 1. Get your Firebase config object from your Firebase project settings.
-        // 2. Paste it below.
-        const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_AUTH_DOMAIN",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_STORAGE_BUCKET",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
-        };
-        
-        // --- IMPORTANT ---
-        // To use this application, you need a Google AI API key.
-        // 1. Get your key from Google AI Studio: https://aistudio.google.com/app/apikey
-        // 2. Paste your key below.
-        const YOUR_GEMINI_API_KEY = ""; // <--- PASTE YOUR API KEY HERE
-
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const provider = new firebase.auth.GoogleAuthProvider();
-
-        const loginBtn = document.getElementById('login-btn');
-        const logoutBtn = document.getElementById('logout-btn');
-        const loginSection = document.getElementById('login-section');
-        const generatorSection = document.getElementById('generator-section');
-        const userInfo = document.getElementById('user-info');
-        const userName = document.getElementById('user-name');
-        
         const generateBtn = document.getElementById('generate-btn');
-        const downloadBtn = document.getElementById('download-btn');
         const topicInput = document.getElementById('topic-input');
         const loadingIndicator = document.getElementById('loading-indicator');
-        const loadingText = document.getElementById('loading-text');
+        const reportSection = document.getElementById('report-section');
+        const reportContent = document.getElementById('report-content');
 
-        const subnichesSection = document.getElementById('subniches-section');
-        const validatedNicheSection = document.getElementById('validated-niche-section');
-        const painPointsSection = document.getElementById('pain-points-section');
-        const businessIdeaSection = document.getElementById('business-idea-section');
-
-        const subnichesGrid = document.getElementById('subniches-grid');
-        const validatedNicheTitle = document.getElementById('validated-niche-title');
-        const validatedNicheReason = document.getElementById('validated-niche-reason');
-        const painPointsSummary = document.getElementById('pain-points-summary');
-        const businessIdeaContent = document.getElementById('business-idea-content');
-        
-        let downloadableContent = {};
-
-        // --- Auth Logic ---
-        auth.onAuthStateChanged(user => {
-            if (user) {
-                // User is signed in.
-                loginSection.style.display = 'none';
-                generatorSection.style.display = 'block';
-                userInfo.style.display = 'block';
-                userName.textContent = `Welcome, ${user.displayName}`;
-            } else {
-                // User is signed out.
-                loginSection.style.display = 'block';
-                generatorSection.style.display = 'none';
-                userInfo.style.display = 'none';
-            }
-        });
-
-        // CORRECTED: Use signInWithRedirect which is more compatible with sandboxed environments.
-        loginBtn.addEventListener('click', () => {
-            auth.signInWithRedirect(provider);
-        });
-
-        // Handle the result from the redirect when the page loads.
-        auth.getRedirectResult()
-            .then((result) => {
-                if (result.user) {
-                    console.log("Successfully signed in with redirect.", result.user);
-                }
-            }).catch((error) => {
-                console.error("Login with redirect failed:", error);
-                alert(`Login failed: ${error.message}`);
-            });
-
-        logoutBtn.addEventListener('click', () => {
-            auth.signOut();
-        });
-
-        async function callGenerativeAI(prompt, schema = null) {
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${YOUR_GEMINI_API_KEY}`;
-            
-            let payload = {
-                contents: [{ role: "user", parts: [{ text: prompt }] }]
-            };
-
-            if (schema) {
-                payload.generationConfig = {
-                    responseMimeType: "application/json",
-                    responseSchema: schema
-                };
-            }
+        // This function now calls your backend API
+        async function callBackendAPI(topic) {
+            // UPDATED: Use a relative path to call the backend.
+            // This works when the frontend is served by the same Flask app.
+            const apiUrl = '/generate';
 
             try {
                 const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify({ topic: topic })
                 });
+
                 if (!response.ok) {
-                    const errorBody = await response.json();
-                    console.error("API Error Response:", errorBody);
-                    throw new Error(`API call failed with status: ${response.status}. ${errorBody.error.message}`);
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `Backend API call failed with status: ${response.status}`);
                 }
                 const result = await response.json();
-                if (result.candidates && result.candidates.length > 0 && result.candidates[0].content && result.candidates[0].content.parts.length > 0) {
-                    const text = result.candidates[0].content.parts[0].text;
-                    return schema ? JSON.parse(text) : text;
-                } else {
-                    console.error("Unexpected API response structure:", result);
-                    throw new Error("Failed to get a valid response from the AI.");
-                }
+                return result.final_report;
+
             } catch (error) {
-                console.error("Error calling Generative AI:", error);
-                alert(`An error occurred: ${error.message}. Please check the console for details.`);
+                console.error("Error calling backend API:", error);
+                alert(`An error occurred: ${error.message}. Make sure your Python backend server is running.`);
                 return null;
             }
         }
@@ -275,229 +118,37 @@
         }
 
         generateBtn.addEventListener('click', async () => {
-            if (!YOUR_GEMINI_API_KEY || YOUR_GEMINI_API_KEY === "") {
-                alert("Please add your Google AI API key to the YOUR_GEMINI_API_KEY variable in the script tag to continue.");
-                return;
-            }
-
             const topic = topicInput.value.trim();
             if (!topic) {
                 alert('Please enter a topic.');
                 return;
             }
 
-            downloadableContent = {};
+            // Reset UI
             generateBtn.disabled = true;
-            generateBtn.textContent = 'Analyzing...';
-            downloadBtn.style.display = 'none';
+            generateBtn.textContent = 'Generating...';
             loadingIndicator.style.display = 'flex';
-            [subnichesSection, validatedNicheSection, painPointsSection, businessIdeaSection].forEach(s => s.classList.remove('visible'));
-            subnichesGrid.innerHTML = '';
-            businessIdeaContent.innerHTML = '';
+            reportSection.classList.remove('visible');
+            reportContent.innerHTML = '';
 
-            // --- Step 1: Generate Sub-Niches ---
-            loadingText.textContent = 'Brainstorming potential sub-niches...';
-            const subnicheSchema = {
-                type: "OBJECT",
-                properties: {
-                    subniches: {
-                        type: "ARRAY",
-                        items: {
-                            type: "OBJECT",
-                            properties: {
-                                title: { type: "STRING" },
-                                description: { type: "STRING" }
-                            },
-                            required: ["title", "description"]
-                        }
-                    }
-                },
-                required: ["subniches"]
-            };
-            const subnichePrompt = `You are a market analyst. Explore the market topic "${topic}" and identify 5 promising, distinct sub-niches with commercial potential. For each, provide a title and a brief, compelling description.`;
-            const subnicheResult = await callGenerativeAI(subnichePrompt, subnicheSchema);
+            // --- Make a SINGLE call to the backend ---
+            const finalReport = await callBackendAPI(topic);
 
-            if (!subnicheResult || !subnicheResult.subniches) {
+            if (!finalReport) {
                 generateBtn.disabled = false;
-                generateBtn.textContent = 'Find My Million-Dollar Idea';
+                generateBtn.textContent = 'Generate Business Idea';
                 loadingIndicator.style.display = 'none';
                 return;
             }
 
-            const subniches = subnicheResult.subniches;
-            downloadableContent.subniches = subniches;
-            subniches.forEach(niche => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `<h3 class="text-xl font-semibold mb-2">${niche.title}</h3><p class="text-gray-600">${niche.description}</p>`;
-                subnichesGrid.appendChild(card);
-            });
-            showSection(subnichesSection);
-
-            // --- Step 2: Validate Niche ---
-            loadingText.textContent = 'Validating demand and searching for market gaps...';
-            const validationSchema = {
-                type: "OBJECT",
-                properties: {
-                    validated_niche: { type: "STRING" },
-                    reason: { type: "STRING" }
-                },
-                required: ["validated_niche", "reason"]
-            };
-            const validationPrompt = `You are a demand validator. From the following sub-niches:\n\n${JSON.stringify(subniches)}\n\nSimulate doing web research to analyze market trends, community discussions, and commercial viability. Choose the single best niche with the highest unmet demand and provide a compelling one-sentence reason for your choice.`;
-            const validationResult = await callGenerativeAI(validationPrompt, validationSchema);
-            
-            if (!validationResult) { /* ... error handling ... */ return; }
-
-            downloadableContent.validation = validationResult;
-            validatedNicheTitle.textContent = validationResult.validated_niche;
-            validatedNicheReason.textContent = validationResult.reason;
-            showSection(validatedNicheSection);
-            const validatedNiche = validationResult.validated_niche;
-
-            // --- Step 3: Find Pain Points ---
-            loadingText.textContent = 'Researching user frustrations and pain points...';
-            const painPointPrompt = `You are a data gatherer. For the niche "${validatedNiche}", simulate searching forums like Reddit for user problems, frustrations, and needs. Summarize the key user complaints and challenges in a concise but detailed paragraph.`;
-            const painPointsResult = await callGenerativeAI(painPointPrompt);
-
-            if (!painPointsResult) { /* ... error handling ... */ return; }
-            
-            downloadableContent.painPoints = painPointsResult;
-            painPointsSummary.textContent = painPointsResult;
-            showSection(painPointsSection);
-
-            // --- Step 4: Generate Business Idea ---
-            loadingText.textContent = 'Creating your business concept and landing page...';
-            const ideaSchema = {
-                type: "OBJECT",
-                properties: {
-                    pain_points: { type: "ARRAY", items: { type: "STRING" } },
-                    idea_name: { type: "STRING" },
-                    idea_description: { type: "STRING" },
-                    headline: { type: "STRING" },
-                    subheadline: { type: "STRING" },
-                    features: { type: "ARRAY", items: {
-                        type: "OBJECT",
-                        properties: {
-                            title: { type: "STRING" },
-                            description: { type: "STRING" }
-                        },
-                        required: ["title", "description"]
-                    }},
-                    faqs: { type: "ARRAY", items: {
-                        type: "OBJECT",
-                        properties: {
-                            question: { type: "STRING" },
-                            answer: { type: "STRING" }
-                        },
-                        required: ["question", "answer"]
-                    }}
-                },
-                required: ["pain_points", "idea_name", "idea_description", "headline", "subheadline", "features", "faqs"]
-            };
-            const ideaPrompt = `Based on the following pain point summary for the niche "${validatedNiche}":\n\n${painPointsResult}\n\nDo the following: 1. List the top 3-5 user pain points. 2. Generate a unique business idea to solve these issues and give it a name and a one-paragraph description. 3. Write compelling landing page copy including a headline, subheadline, 3 feature descriptions, and 2-3 FAQs.`;
-            const ideaResult = await callGenerativeAI(ideaPrompt, ideaSchema);
-            
-            if (!ideaResult) { /* ... error handling ... */ return; }
-
-            downloadableContent.businessIdea = ideaResult;
-
-            let featuresHtml = ideaResult.features.map(f => `
-                <div class="mt-4">
-                    <h4 class="text-lg font-semibold text-gray-800">${f.title}</h4>
-                    <p class="text-gray-600">${f.description}</p>
-                </div>
-            `).join('');
-
-            let faqsHtml = ideaResult.faqs.map(f => `
-                <div class="mt-4">
-                    <h4 class="text-lg font-semibold text-gray-800">${f.question}</h4>
-                    <p class="text-gray-600">${f.answer}</p>
-                </div>
-            `).join('');
-
-            businessIdeaContent.innerHTML = `
-                <div class="text-center">
-                    <h3 class="text-3xl font-bold text-gray-900">${ideaResult.idea_name}</h3>
-                    <p class="mt-2 text-lg text-gray-600">${ideaResult.idea_description}</p>
-                </div>
-                <hr class="my-8">
-                <div>
-                    <h3 class="text-2xl font-bold text-center mb-6">Landing Page Concept</h3>
-                    <div class="text-center p-8 bg-gray-100 rounded-lg">
-                        <h2 class="text-4xl font-extrabold tracking-tight text-gray-900">${ideaResult.headline}</h2>
-                        <p class="mt-4 text-xl text-gray-600">${ideaResult.subheadline}</p>
-                    </div>
-                    <div class="mt-8">
-                        <h3 class="text-2xl font-bold text-gray-900">Features</h3>
-                        ${featuresHtml}
-                    </div>
-                    <div class="mt-8">
-                        <h3 class="text-2xl font-bold text-gray-900">Frequently Asked Questions</h3>
-                        ${faqsHtml}
-                    </div>
-                </div>
-            `;
-            showSection(businessIdeaSection);
+            // Use the 'marked' library to convert Markdown to HTML
+            reportContent.innerHTML = marked.parse(finalReport);
+            showSection(reportSection);
 
             // --- Finalize ---
             loadingIndicator.style.display = 'none';
             generateBtn.disabled = false;
-            generateBtn.textContent = 'Find Another Idea';
-            downloadBtn.style.display = 'flex'; // Show download button
-        });
-
-        downloadBtn.addEventListener('click', () => {
-            if (Object.keys(downloadableContent).length === 0) {
-                alert("No content to download. Please generate an idea first.");
-                return;
-            }
-
-            let textContent = `AI Business Idea Generation Report\n`;
-            textContent += `Topic: ${topicInput.value}\n`;
-            textContent += "======================================\n\n";
-
-            textContent += "### Step 1: Top 5 Potential Sub-Niches ###\n\n";
-            downloadableContent.subniches.forEach((n, i) => {
-                textContent += `${i + 1}. ${n.title}\n`;
-                textContent += `   ${n.description}\n\n`;
-            });
-
-            textContent += "======================================\n\n";
-            textContent += "### Step 2: Validated Niche ###\n\n";
-            textContent += `Niche: ${downloadableContent.validation.validated_niche}\n`;
-            textContent += `Reason: ${downloadableContent.validation.reason}\n\n`;
-
-            textContent += "======================================\n\n";
-            textContent += "### Step 3: User Pain Points ###\n\n";
-            textContent += `${downloadableContent.painPoints}\n\n`;
-
-            textContent += "======================================\n\n";
-            textContent += "### Step 4: Business Idea & Landing Page ###\n\n";
-            const idea = downloadableContent.businessIdea;
-            textContent += `Idea Name: ${idea.idea_name}\n`;
-            textContent += `Description: ${idea.idea_description}\n\n`;
-            textContent += `--- Landing Page Copy ---\n`;
-            textContent += `Headline: ${idea.headline}\n`;
-            textContent += `Subheadline: ${idea.subheadline}\n\n`;
-            textContent += `Features:\n`;
-            idea.features.forEach(f => {
-                textContent += `- ${f.title}: ${f.description}\n`;
-            });
-            textContent += `\nFAQs:\n`;
-            idea.faqs.forEach(f => {
-                textContent += `- Q: ${f.question}\n  A: ${f.answer}\n`;
-            });
-
-            const blob = new Blob([textContent], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'AI-Business-Idea-Report.txt';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+            generateBtn.textContent = 'Generate Another Idea';
         });
     </script>
 </body>
